@@ -56,7 +56,8 @@ app.get('/cb', ({ query: { code } }) => {
 
             console.log(data);
 
-            const existingData = JSON.parse(fs.readFileSync(path.join(dataDir, 'oauth.json'), 'utf-8'));
+            const oauthPath = path.join(dataDir, 'oauth.json');
+            const existingData = fs.existsSync(oauthPath) ? JSON.parse(fs.readFileSync(oauthPath), 'utf-8') : [];
             fs.writeFileSync(path.join(dataDir, 'oauth.json'), JSON.stringify([...existingData, data], null, 2));
         }).catch((err) => console.error('Error fetching user info:', err));
     });
